@@ -1,6 +1,6 @@
 import { createStackNavigator } from 'react-navigation-stack';
-import Login from '../screens/Login';
-import Registration from '../screens/Registration';
+import Login from '~_screens/Login';
+import Registration from '~_screens/Registration';
 
 const AuthNavigation = createStackNavigator(
     {
@@ -14,6 +14,11 @@ const AuthNavigation = createStackNavigator(
     {
         initialRouteName: 'Login',
         headerMode: 'none',
+        defaultNavigationOptions: () => ({
+            cardStyle: {
+                backgroundColor: '#fff',
+            },
+        }),
     }
 )
 

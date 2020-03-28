@@ -1,0 +1,4 @@
+export const alertConstants = {
+    SET_ERROR_API_MESSAGE: 'SET_ERROR_API_MESSAGE',
+    SET_SCREEN_LOADING: 'SET_SCREEN_LOADING',
+}

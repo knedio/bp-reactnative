@@ -1,29 +1,28 @@
 import axios from 'axios';
+import AsyncStorage from '@react-native-community/async-storage';
 import { API_URL } from './global-variables';
+
+const apiUrl = `${API_URL}/v1/`;
 
 const headers = {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
 };
 
-const api = axios.create({
+let api = axios.create({
     baseURL: API_URL,
     headers,
 });
 
-const version = '/v2';
-
 // set token
 export const setToken = async () => {
-    const token = await AsyncStorage.getItem('token');
-    if (token !== null){
-        api.setHeaders({
-            ...headers,
-            'Authorization': 'Bearer ' + token,
-        });
-    } else {
-        delete api.headers['Authorization']
-    };
+    axios.interceptors.request.use(async (request) => {
+        const token = await AsyncStorage.getItem('token');
+        if (token) {
+          request.headers.common['Authorization'] = `Bearer ${token}`
+        }
+        return request
+    })
 }
 
 // Request Method for dynamic method
@@ -31,7 +30,7 @@ export const request = (method, url, payload = {}, headers = {}) => {
     return axios({
         headers,
     	method,
-        url: API_URL + version + url,
+        url: apiUrl + url,
         [(method == 'GET') ? 'params' : 'data'] : payload,
     })
 }
@@ -41,7 +40,7 @@ export const get = (url, payload = {}, headers = {}) => {
     return axios({
         headers,
     	method: 'GET',
-        url: API_URL + version + url,
+        url: apiUrl + url,
         params:payload
     })
 }
@@ -52,7 +51,7 @@ export const post = (url, payload = {}, headers = {}, other = {}) => {
         headers,
         ...other,
         method: 'POST',
-        url: API_URL + version + url,
+        url: apiUrl + url,
         data: payload
     })
 }
@@ -62,7 +61,7 @@ export const put = (url, payload = {}, headers = {}) => {
     return axios({
         headers,
         method: 'PUT',
-        url: API_URL + version + url,
+        url: apiUrl + url,
         data: payload
     })
 }
@@ -72,7 +71,7 @@ export const patch = (url, payload = {}, headers = {}) => {
     return axios({
         headers,
         method: 'PATCH',
-        url: API_URL + version + url,
+        url: apiUrl + url,
         data: payload
     })
 }
@@ -82,6 +81,6 @@ export const del = (url, payload = {}, headers = {}) => {
     return axios({
         headers,
         method: 'DELETE',
-        url: API_URL + version + url,
+        url: apiUrl + url,
     })
 }
