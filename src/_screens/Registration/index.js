@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { Button } from 'react-native-elements';
 import InputField from '~_components/Form/InputField';
-import { authActions } from '~_store/_actions';
+import { authActions, alertActions } from '~_store/_actions';
 import styles from './styles';
 
 const LoginScreen = ({navigation}) => {
