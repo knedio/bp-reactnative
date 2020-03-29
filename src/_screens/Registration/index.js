@@ -53,6 +53,7 @@ const LoginScreen = ({navigation}) => {
             if(err.response && err.response.status === 422) {
                 setErrorMessages(err.response.data.errors);
             }
+            await dispatch(alertActions.setScreenLoading(false));
         }
         
     }
