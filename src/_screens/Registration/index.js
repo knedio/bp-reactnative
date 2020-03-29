@@ -35,7 +35,19 @@ const LoginScreen = ({navigation}) => {
 
     const onSubmit = async () => {
         try {
+            await dispatch(alertActions.setScreenLoading(true));
             const { data } = await dispatch(authActions.register(registerForm));
+            setRegisterForm({
+                firstName: '',
+                middleName: '',
+                lastName: '',
+                email: '',
+                address: '',
+                gender: '',
+                password: '',
+                confirmPassword: ''
+            });
+            await dispatch(alertActions.setScreenLoading(false));
             navigation.navigate('Login');
         } catch ( err ) {
             if(err.response && err.response.status === 422) {
